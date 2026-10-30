@@ -1,0 +1,40 @@
+- id: '1735391263516'
+  alias: Tænd Lys en af os kommer hjem
+  description: Når en af vores mobiler kommer hjem og hvis Lysføler siger det er aften
+    og lyset ikke er tændt i huset
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.jan_s_s22
+    from: not_home
+    to: 'Home '
+  - trigger: state
+    entity_id:
+    - device_tracker.mivs_s22
+    from: not_home
+    to: home
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.faelles_3963482
+    state: 'on'
+  - condition: state
+    entity_id: light.store_stue_942429
+    state: 'off'
+  - condition: state
+    entity_id: light.kokken_3994461
+    state: 'off'
+  - condition: state
+    entity_id: light.spisekarnap_1237085
+    state: 'off'
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id: faelles
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      area_id: faelles
+  mode: single

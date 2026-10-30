@@ -1,0 +1,87 @@
+- id: '1703971886491'
+  name: 'Temperatur '
+  entities:
+    climate.daikin_stue:
+      hvac_modes:
+      - fan_only
+      - dry
+      - cool
+      - heat
+      - heat_cool
+      - 'off'
+      min_temp: 7
+      max_temp: 35
+      target_temp_step: 1
+      fan_modes:
+      - Auto
+      - Silence
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      preset_modes:
+      - none
+      - away
+      - eco
+      - boost
+      swing_modes:
+      - 'Off'
+      - Vertical
+      - Horizontal
+      - 3D
+      current_temperature: 23
+      temperature: 21
+      fan_mode: Auto
+      preset_mode: none
+      swing_mode: Horizontal
+      icon: mdi:air-conditioner
+      friendly_name: Daikin Stue
+      supported_features: 57
+      hvac_action: heating
+      state: heat
+    sensor.daikin_stue_compressor_estimated_power_consumption:
+      state_class: measurement
+      unit_of_measurement: kW
+      device_class: power
+      friendly_name: Daikin Stue Compressor estimated power consumption
+      state: '0'
+    sensor.daikin_stue_energy_consumption:
+      state_class: total_increasing
+      unit_of_measurement: kWh
+      device_class: energy
+      friendly_name: Daikin Stue Energy consumption
+      state: '3.4'
+    sensor.daikin_stue_humidity:
+      state_class: measurement
+      unit_of_measurement: '%'
+      device_class: humidity
+      friendly_name: Daikin Stue Humidity
+      state: '40.0'
+    sensor.daikin_stue_inside_temperature:
+      state_class: measurement
+      unit_of_measurement: °C
+      device_class: temperature
+      friendly_name: Daikin Stue Inside temperature
+      state: '23.0'
+    switch.daikin_stue_none:
+      icon: mdi:power
+      friendly_name: Daikin Stue None
+      state: 'on'
+    sensor.daikin_stue_outside_temperature:
+      state_class: measurement
+      unit_of_measurement: °C
+      device_class: temperature
+      friendly_name: Daikin Stue Outside temperature
+      state: '6.0'
+    switch.daikin_stue_streamer:
+      icon: mdi:air-filter
+      friendly_name: Daikin Stue Streamer
+      state: 'on'
+    sensor.daikin_stue_target_humidity:
+      state_class: measurement
+      unit_of_measurement: '%'
+      device_class: humidity
+      friendly_name: Daikin Stue Target humidity
+      state: '40.0'
+  metadata: {}

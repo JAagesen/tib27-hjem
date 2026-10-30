@@ -1,0 +1,37 @@
+BACKUP 2026-10-29 — HA automations referencing zone "Home " (zone.home_2) + zone definition
+Originals BEFORE change:
+
+1735596209433  Home Alone
+  conditions[1]={"condition":"state","entity_id":"device_tracker.ella_tracker","state":["Home "]}
+
+1736323342801  When I come home turn on light in Bjørneværelse
+  triggers[0]={"trigger":"state","entity_id":["device_tracker.jan_s_cell_phone"],"from":["not_home"],"to":["home","Home "]}
+  actions[0]={"action":"light.turn_on","metadata":{},"data":{},"target":{"entity_id":["light.extended_color_light_1","light.extended_color_light_1_2"]}}
+
+1759389034379  Naar sidste mand forlader huset-sluk lyset hvis det er dag
+  triggers[1]={"trigger":"state","entity_id":["device_tracker.jan_s_s22"],"from":["Home ","home"],"to":["not_home"]}
+
+1762082569049  Ella Away
+  triggers[0]={"trigger":"state","entity_id":["device_tracker.ella_tracker"],"from":"Home ","to":"not_home"}
+
+1762082633097  Ella coming home
+  triggers[0]={"trigger":"state","entity_id":["device_tracker.ella_tracker"],"from":"not_home","to":"Home "}
+
+1762441290061  Naar vi kommer hjem og Ella ikke er hjemme
+  triggers[0]={"trigger":"state","entity_id":["device_tracker.jan_s_s22"],"from":"not_home","to":"Home "}
+
+ZONE deleted (storage collection id "home" -> entity zone.home_2):
+  {"id":"home","latitude":55.750086268871854,"longitude":12.410404086112978,"name":"Home ","icon":"mdi:map-marker","passive":false,"radius":74.66400905299304}
+
+KEPT: zone.home  name "TIB27"  lat 55.75009079754291  lon 12.410414814949036  radius 85  (from core config)
+
+=== 2026-10-30 11:30 — før ændring ===
+1762441290061  Naar vi kommer hjem og Ella ikke er hjemme
+  conditions=[{"condition":"state","entity_id":"device_tracker.ella_tracker","state":["not_home"]}]
+  actions=[{"action":"light.turn_on","metadata":{},"data":{},"target":{"area_id":"living_room"}},
+           {"action":"light.turn_on","metadata":{},"data":{},"target":{"area_id":"kokken"}},
+           {"action":"light.turn_on","metadata":{},"target":{"entity_id":"light.spisekarnap_5257565"},"data":{}}]
+
+1735596209433  Home Alone (som sat 29-10)
+  actions=[{"action":"light.turn_on","metadata":{},"data":{"transition":1,"brightness_pct":80},
+            "target":{"entity_id":["light.store_stue_1644893","light.store_stue_3978077","light.spisekarnap_5247581","light.store_stue_942429","light.verner_panton","light.kokken_3994461"]}}]

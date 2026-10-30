@@ -1,0 +1,5 @@
+# IHC Visual needs CRLF and ISO-8859-1 exactly as written — never let git touch them.
+*.vis binary
+*.yaml text eol=lf
+*.py   text eol=lf
+*.md   text eol=lf

@@ -1,0 +1,32 @@
+heat_on_and_off:
+  alias: 'HEAT ON AND OFF '
+  sequence:
+  - type: turn_on
+    device_id: 09af2500ce663d660dd0ddb6299ee3ed
+    entity_id: 0ac1142039e6acc75002d7e58113013d
+    domain: switch
+  - device_id: 3fb7bd703411635ba310678723ddd926
+    domain: climate
+    entity_id: 4d407c92b0aba67c159d70b876ad80dd
+    type: set_hvac_mode
+    hvac_mode: heat
+  mode: single
+  icon: mdi:heat-wave
+  fields: {}
+
+all_lights_off:
+  alias: "All Lights Off"
+  sequence:
+    - service: light.turn_off
+      target:
+        entity_id: light.slukalt
+    - delay:
+        milliseconds: 100
+    - service: light.turn_on
+      target:
+        entity_id: light.slukalt
+    - delay:
+        milliseconds: 100
+    - service: light.turn_off
+      target:
+        entity_id: light.slukalt

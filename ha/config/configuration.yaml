@@ -1,0 +1,168 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+logger:
+  default: warning
+recorder:
+  purge_keep_days: 7
+  commit_interval: 10
+  exclude:
+    entity_globs:
+      - sensor.*_rx
+      - sensor.*_tx
+      - sensor.*_uptime
+
+ihc:
+  - url: 'http://192.168.27.53'
+    username: admin
+    password: !secret ihc_password
+    auto_setup: true
+    info: true
+    
+    
+    light:
+    -   id: 1439068
+        name: "Sluk_Alt_Fælles"
+    -   id: 1477137
+        name: "Tænd_Alt-Fælles"
+    binary_sensor:
+      - id: 8440074
+        name: markise_ud_tryk
+      - id: 8440330
+        name: markise_ind_tryk
+      - id: 8440586
+        name: markise_hold_ud
+      - id: 8440842
+        name: markise_hold_ind
+      - id: 8588042
+        name: ha_hjerteslag
+      - id: 7115786
+        name: bjorn_hue_slukttaend
+      - id: 5527818
+        name: verner_hue_slukttaend
+      - id: 8324874
+        name: lille_hue_slukttaend
+      - id: 3029770
+        name: sov_hue_slukttaend
+      - id: 1441554
+        name: sluk_alt_puls
+      - id: 948572
+        name: sov_dor_op_v
+      - id: 948828
+        name: sov_dor_op_h
+      - id: 949084
+        name: sov_dor_ned_v
+      - id: 949340
+        name: sov_dor_ned_h
+      - id: 8364636
+        name: sov_miv_op_v
+      - id: 8364892
+        name: sov_miv_op_h
+      - id: 8365148
+        name: sov_miv_midt_v
+      - id: 8365404
+        name: sov_miv_midt_h
+      - id: 8375388
+        name: sov_nalle_op_v
+      - id: 8375644
+        name: sov_nalle_op_h
+      - id: 8375900
+        name: sov_nalle_midt_v
+      - id: 8376156
+        name: sov_nalle_midt_h
+      - id: 7157852
+        name: bjorn_tryk_on
+      - id: 7158108
+        name: bjorn_tryk_off
+      - id: 87900
+        name: lille_tryk_on_gang
+      - id: 89180
+        name: lille_tryk_on_yder
+      - id: 88156
+        name: lille_tryk_off_gang
+      - id: 89436
+        name: lille_tryk_off_yder
+      - id: 1172060
+        name: stue_tryk_on_gangdor
+      - id: 1438812
+        name: stue_tryk_on_faelles
+      - id: 4002908
+        name: stue_tryk_on_soterr
+      - id: 3712092
+        name: stue_tryk_on_fjern1
+      - id: 4020316
+        name: stue_tryk_on_klaver
+      - id: 1173084
+        name: stue_tryk_on_gangdor_ned
+      - id: 4021340
+        name: stue_tryk_on_klaver_ned
+      - id: 3713116
+        name: stue_tryk_on_fjern5
+      - id: 1172316
+        name: stue_tryk_off_gangdor
+      - id: 1439068
+        name: stue_tryk_off_faelles
+      - id: 4003164
+        name: stue_tryk_off_soterr
+      - id: 3712348
+        name: stue_tryk_off_fjern2
+      - id: 4020572
+        name: stue_tryk_off_klaver
+      - id: 1173340
+        name: stue_tryk_off_gangdor_ned
+      - id: 4021596
+        name: stue_tryk_off_klaver_ned
+      - id: 3713372
+        name: stue_tryk_off_fjern6
+      - id: 3713884
+        name: stue_tryk_off_fjern8
+      - id: 4004188
+        name: stue_tryk_off_soterr_ned
+      - id: 4009852
+        name: overskabe_fejl_overstroem
+      - id: 4010109
+        name: overskabe_fejl_overspaending
+      - id: 4010366
+        name: overskabe_fejl_overophedning
+      - id: 4010623
+        name: overskabe_fejl_belastning
+    sensor:
+      - id: 7115276
+        name: bjorn_hue_fadeop
+      - id: 7115532
+        name: bjorn_hue_fadened
+      - id: 5527308
+        name: verner_hue_fadeop
+      - id: 5527564
+        name: verner_hue_fadened
+      - id: 8324364
+        name: lille_hue_fadeop
+      - id: 8324620
+        name: lille_hue_fadened
+      - id: 3879695
+        name: stue_scenarie_status
+    
+#device_tracker:
+ # - platform: unifi_direct
+  #  host: 192.168.27.1
+  #  username: root
+   # password: <fjernet>
+  # new_device_defaults:
+   # track_new_devices: true
+
+
+input_boolean:
+  sov_leklint_dim_op:
+    name: Sovevaerelse Le Klint daemperetning op
+    icon: mdi:swap-vertical
+  sov_lille_dim_op:
+    name: Sovevaerelse Lille lampe daemperetning op
+    icon: mdi:swap-vertical

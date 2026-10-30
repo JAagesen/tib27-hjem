@@ -1,0 +1,1142 @@
+- id: '1703966086975'
+  alias: Daiken Fan Only above 25
+  description: When temp is higher than 25
+  trigger:
+  - platform: device
+    device_id: 09af2500ce663d660dd0ddb6299ee3ed
+    domain: climate
+    entity_id: 70c5f3714786e80e83af161fac7d54b7
+    type: current_temperature_changed
+    above: 26
+  condition:
+  - condition: device
+    type: is_on
+    device_id: 09af2500ce663d660dd0ddb6299ee3ed
+    entity_id: 02c171c4c37f6eae82d22b82509cd882
+    domain: switch
+  action:
+  - device_id: 09af2500ce663d660dd0ddb6299ee3ed
+    domain: climate
+    entity_id: 70c5f3714786e80e83af161fac7d54b7
+    type: set_hvac_mode
+    hvac_mode: fan_only
+  mode: single
+- id: '1703966223089'
+  alias: Set Heat on when below 24
+  description: ''
+  trigger:
+  - platform: device
+    device_id: 09af2500ce663d660dd0ddb6299ee3ed
+    domain: climate
+    entity_id: 70c5f3714786e80e83af161fac7d54b7
+    type: current_temperature_changed
+    below: 25
+  condition:
+  - condition: and
+    conditions:
+    - condition: device
+      type: is_on
+      device_id: 09af2500ce663d660dd0ddb6299ee3ed
+      entity_id: 02c171c4c37f6eae82d22b82509cd882
+      domain: switch
+  action:
+  - device_id: 09af2500ce663d660dd0ddb6299ee3ed
+    domain: climate
+    entity_id: 70c5f3714786e80e83af161fac7d54b7
+    type: set_hvac_mode
+    hvac_mode: heat
+  mode: single
+- id: '1710070964704'
+  alias: Lights off in Soveværelse When TV goes OFF
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: a5498026c80344a955a7e2827ffabebd
+    entity_id: 1e6c1b55c4a854c224420c2f7e96fe28
+    domain: remote
+  condition: []
+  action:
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 7ab0e72f5c8a5ed08bfa80290fa034e1
+  mode: single
+- id: '1711789432603'
+  alias: Lights on or of in Bjørneværelset
+  description: ''
+  triggers:
+  - tag_id: acabc186-f9d2-4de4-9b46-2a54acdb97f7
+    trigger: tag
+  conditions: []
+  actions:
+  - metadata: {}
+    data: {}
+    target:
+      area_id: bjornevaerelse
+    action: light.toggle
+  mode: single
+- id: '1734349748151'
+  alias: Lights off at 9 in Soveværelset
+  description: ''
+  triggers:
+  - trigger: time
+    at: 09:00:00
+  conditions:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  actions:
+  - type: turn_off
+    device_id: 7d015f8f1e83e75206afc77da2468ce3
+    entity_id: 3c352811cb7af0f9741b608ee96a9010
+    domain: light
+    enabled: true
+  - type: turn_off
+    device_id: 0d36bfe67d69b8290e96f0e0c6e0fb7e
+    entity_id: 936e7be71629a2780ae832fa700ae454
+    domain: light
+    enabled: true
+  - type: turn_off
+    device_id: 5a25f066cfcf9108275f5d5a94c12a21
+    entity_id: 9b1c7eed149b3bbc8810db496b54edfe
+    domain: light
+    enabled: true
+  mode: single
+- id: '1735336415999'
+  alias: Lights out at 9 if no ones at home
+  description: Nalle and Miv's cell phones are not at home
+  triggers:
+  - trigger: time
+    at: 09:00:00
+  conditions:
+  - condition: state
+    entity_id: device_tracker.mivs_s22
+    state: not_home
+  - condition: state
+    entity_id: device_tracker.jan_s_s22
+    state:
+    - not_home
+  actions:
+  - action: script.all_lights_off
+    metadata: {}
+    data: {}
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+      - sovevaerelse
+      - bjornevaerelse
+      - living_room
+  mode: single
+- id: '1735396699723'
+  alias: Sluk lys i Bjørneværelset, når jeg forlader hjemmet
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.jan_s_s22
+    from:
+    - home
+    - Home
+    to:
+    - not_home
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.faelles_3963482
+    state:
+    - 'off'
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - 760b0d2c29890f4937605062a30201d0
+      - 49b3c03a9f7c1c9b6800593f97aa9075
+  mode: single
+- id: '1735596209433'
+  alias: Home Alone
+  description: Når Ella er alene hjemme og det bliver mørkt.
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.faelles_3963482
+    from: 'off'
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: device_tracker.mivs_s22
+    state: not_home
+  - condition: state
+    entity_id: device_tracker.ella_tracker
+    state:
+    - home
+  - condition: state
+    entity_id: device_tracker.jan_s_s22
+    state:
+    - not_home
+  actions:
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.store_stue_1644893
+      - light.store_stue_3978077
+      - light.spisekarnap_5247581
+      - light.store_stue_942429
+      - light.kokken_3994461
+    data: {}
+  - action: light.turn_on
+    target:
+      entity_id: light.stue
+    data:
+      transition: 1
+      brightness_pct: '{{ 5 if states(''sensor.stue_scenarie_status'') | trim == ''TV''
+        else 30 }}'
+  mode: single
+- id: '1736323342801'
+  alias: When I come home turn on light in Bjørneværelse
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.jan_s_s22
+    - device_tracker.jan_s_cell_phone
+    from:
+    - not_home
+    to:
+    - home
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.faelles_3963482
+    state: 'on'
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data:
+      transition: 1
+      brightness_pct: 80
+    target:
+      entity_id:
+      - light.extended_color_light_1
+      - light.extended_color_light_1_2
+  mode: single
+- id: '1759310045786'
+  alias: Når Miv kommer hjem
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - person.miv
+    from: not_home
+    to: home
+  conditions: []
+  actions: []
+  mode: single
+- id: '1759389034379'
+  alias: Når sidste mand forlader huset-sluk lyset hvis det er dag
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.mivs_s22
+    from: home
+    to: not_home
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  - trigger: state
+    entity_id:
+    - device_tracker.jan_s_s22
+    from:
+    - home
+    to:
+    - not_home
+  conditions:
+  - condition: state
+    entity_id: device_tracker.mivs_s22
+    state: not_home
+  - condition: state
+    entity_id: binary_sensor.faelles_3963482
+    state: 'off'
+  - condition: state
+    entity_id: device_tracker.jan_s_s22
+    state:
+    - not_home
+  actions:
+  - action: script.all_lights_off
+    metadata: {}
+    data: {}
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+      - sovevaerelse
+      - bjornevaerelse
+      - living_room
+  mode: single
+- id: '1760814915992'
+  alias: 'When Nalle gets home '
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.jan_s_s22
+    from: not_home
+    to: home
+    enabled: false
+  conditions: []
+  actions: []
+  mode: single
+- id: '1761324155903'
+  alias: Work Light Bjørneværelse
+  description: Tænder lys i Bjørneværelset, når Jans telefon lægges på den trådløse
+    lader, og telefonen er hjemme, når det er mørkt.
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.jan_s_cell_phone_charger_type
+    to:
+    - wireless
+  - trigger: state
+    entity_id:
+    - binary_sensor.faelles_3963482
+    from: 'off'
+    to: 'on'
+  conditions:
+  - condition: zone
+    entity_id: device_tracker.jan_s_cell_phone
+    zone: zone.home
+  - condition: state
+    entity_id: sensor.jan_s_cell_phone_charger_type
+    state:
+    - wireless
+  - condition: state
+    entity_id: binary_sensor.faelles_3963482
+    state: 'on'
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      device_id: 174e04788e0cd7ac43000a26fc23d65f
+  mode: single
+- id: '1762082569049'
+  alias: Ella Away
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.ella_tracker
+    from: home
+    to: not_home
+  conditions: []
+  actions: []
+  mode: single
+- id: '1762082633097'
+  alias: Ella coming home
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.ella_tracker
+    from: not_home
+    to: home
+  conditions: []
+  actions: []
+  mode: single
+- id: '1762441290061'
+  alias: Når vi kommer hjem og Ella ikke er hjemme
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.jan_s_s22
+    from: not_home
+    to: home
+  - trigger: state
+    entity_id:
+    - person.miv
+    from: not_home
+    to: home
+  conditions:
+  - condition: state
+    entity_id: device_tracker.ella_tracker
+    state:
+    - not_home
+  - condition: state
+    entity_id: binary_sensor.faelles_3963482
+    state: 'on'
+  actions:
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.store_stue_1018205
+      - light.store_stue_1644893
+      - light.store_stue_942429
+      - light.store_stue_1012317
+      - light.store_stue_3978077
+      - light.kokken_3984477
+      - light.kokken_3987805
+      - light.kokken_3991133
+      - light.kokken_3994461
+      - light.faelles_4009053
+      - light.spisekarnap_5257565
+    data: {}
+  - action: light.turn_on
+    target:
+      entity_id: light.stue
+    data:
+      transition: 1
+      brightness_pct: '{{ 5 if states(''sensor.stue_scenarie_status'') | trim == ''TV''
+        else 30 }}'
+  mode: single
+- id: '1770796779242'
+  alias: Når vi begge kommer hjem og det er mørkt.
+  description: Når vi begge kommer hjem og det er mørkt
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.faelles_3963482
+    from: 'off'
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: device_tracker.mivs_s22
+    state: not_home
+  - condition: state
+    entity_id: device_tracker.ella_tracker
+    state:
+    - not_home
+  - condition: state
+    entity_id: device_tracker.jan_s_cell_phone
+    state:
+    - not_home
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - light.store_stue_1644893
+      - light.store_stue_3978077
+      - light.spisekarnap_5247581
+      - light.store_stue_942429
+      - light.verner_panton
+      - light.kokken_3994461
+      - light.bjornevaerelse
+      - light.spisekarnap_5257565
+      - light.spisekarnap_1237085
+      - light.store_stue_1018205
+  mode: single
+- id: '17895564828070'
+  alias: Markise – tryk UD (helt ud / stop)
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.markise_ud_tryk
+    to: 'on'
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: cover.noddeterasse_terrasse_markise
+        state:
+        - opening
+        - closing
+      sequence:
+      - action: cover.stop_cover
+        target:
+          entity_id: cover.noddeterasse_terrasse_markise
+    default:
+    - action: cover.open_cover
+      target:
+        entity_id: cover.noddeterasse_terrasse_markise
+  - delay:
+      seconds: 1
+  mode: single
+  max_exceeded: silent
+- id: '17895564829271'
+  alias: Markise – tryk IND (helt ind / stop)
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.markise_ind_tryk
+    to: 'on'
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: cover.noddeterasse_terrasse_markise
+        state:
+        - opening
+        - closing
+      sequence:
+      - action: cover.stop_cover
+        target:
+          entity_id: cover.noddeterasse_terrasse_markise
+    default:
+    - action: cover.close_cover
+      target:
+        entity_id: cover.noddeterasse_terrasse_markise
+  - delay:
+      seconds: 1
+  mode: single
+  max_exceeded: silent
+- id: '17895564831322'
+  alias: Markise – hold UD
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.markise_hold_ud
+    to: 'on'
+  conditions: []
+  actions:
+  - action: cover.open_cover
+    target:
+      entity_id: cover.noddeterasse_terrasse_markise
+  - wait_for_trigger:
+    - trigger: state
+      entity_id: binary_sensor.markise_hold_ud
+      to: 'off'
+    timeout: 00:01:00
+  - action: cover.stop_cover
+    target:
+      entity_id: cover.noddeterasse_terrasse_markise
+  - delay:
+      seconds: 1
+  mode: single
+  max_exceeded: silent
+- id: '17895564833953'
+  alias: Markise – hold IND
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.markise_hold_ind
+    to: 'on'
+  conditions: []
+  actions:
+  - action: cover.close_cover
+    target:
+      entity_id: cover.noddeterasse_terrasse_markise
+  - wait_for_trigger:
+    - trigger: state
+      entity_id: binary_sensor.markise_hold_ind
+      to: 'off'
+    timeout: 00:01:00
+  - action: cover.stop_cover
+    target:
+      entity_id: cover.noddeterasse_terrasse_markise
+  - delay:
+      seconds: 1
+  mode: single
+  max_exceeded: silent
+- id: '1789714044818'
+  alias: Sluk lys i Stue, Spisekarnap og Køkken kl. 09:00 (hverdage)
+  description: Slukker lys i Store Stue, Spisekarnap og Køkken kl. 09:00 mandag–fredag,
+    uanset om nogen er hjemme. Luxo Lampe i Køkken er bevidst undtaget.
+  triggers:
+  - trigger: time
+    at: 09:00:00
+  conditions:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  actions:
+  - action: light.turn_off
+    target:
+      area_id:
+      - living_room
+      - spisekarnap
+  - action: light.turn_off
+    target:
+      entity_id:
+      - light.kokken_3987805
+      - light.kokken_3991133
+      - light.kokken_3994461
+      - light.faelles_4009053
+  mode: single
+- id: '1790438146726'
+  alias: IHC vagthund – hjerteslag
+  description: Genstarter Home Assistant, hvis hjerteslaget fra IHC (ressource 8588042)
+    ikke har ændret sig i 15 minutter. Flaget kipper hvert 2:30, så 15 minutter svarer
+    til seks mistede slag.
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.ha_hjerteslag
+    to: 'on'
+    for: 00:15:00
+  - trigger: state
+    entity_id: binary_sensor.ha_hjerteslag
+    to: 'off'
+    for: 00:15:00
+  - trigger: state
+    entity_id: binary_sensor.ha_hjerteslag
+    to: unavailable
+    for: 00:15:00
+  conditions:
+  - condition: template
+    value_template: '{% set lt = state_attr(this.entity_id, ''last_triggered'') %}
+      {{ lt is none or (now() - lt).total_seconds() > 3600 }}'
+  actions:
+  - action: notify.mobile_app_jan_s_s22_via_app
+    data:
+      title: IHC er tavs
+      message: Intet hjerteslag fra IHC i 15 minutter. Home Assistant genstarter nu.
+  - action: persistent_notification.create
+    data:
+      title: IHC vagthund
+      message: Intet hjerteslag fra IHC i 15 minutter. Home Assistant genstartes.
+  - delay:
+      seconds: 10
+  - action: homeassistant.restart
+  mode: single
+- id: '1790540794551'
+  alias: Opdater Home Assistant automatisk – første søndag i måneden
+  description: Installerer ny Home Assistant Core den første søndag i måneden kl.
+    04, hvis der er en opdatering klar. Der tages altid en sikkerhedskopi først.
+  triggers:
+  - trigger: time
+    at: 04:00:00
+  conditions:
+  - condition: template
+    value_template: '{{ now().day <= 7 and now().weekday() == 6 }}'
+  - condition: state
+    entity_id: update.home_assistant_core_update
+    state: 'on'
+  actions:
+  - action: notify.mobile_app_jan_s_s22_via_app
+    data:
+      title: Home Assistant opdaterer
+      message: Ny udgave {{ state_attr('update.home_assistant_core_update', 'latest_version')
+        }} installeres nu. Sikkerhedskopi tages først.
+  - action: update.install
+    target:
+      entity_id: update.home_assistant_core_update
+    data:
+      backup: true
+  mode: single
+- id: hue_ihc_verner_onoff
+  alias: Store Stue (Verner) - Hue taend/sluk fra IHC-tryk
+  mode: single
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.stue_tryk_on_gangdor
+    - binary_sensor.stue_tryk_on_faelles
+    - binary_sensor.stue_tryk_on_soterr
+    - binary_sensor.stue_tryk_on_fjern1
+    - binary_sensor.stue_tryk_on_klaver
+    - binary_sensor.stue_tryk_on_gangdor_ned
+    - binary_sensor.stue_tryk_on_klaver_ned
+    - binary_sensor.stue_tryk_on_fjern5
+    to: 'on'
+    id: taend
+  - platform: state
+    entity_id:
+    - binary_sensor.stue_tryk_off_gangdor
+    - binary_sensor.stue_tryk_off_faelles
+    - binary_sensor.stue_tryk_off_soterr
+    - binary_sensor.stue_tryk_off_fjern2
+    - binary_sensor.stue_tryk_off_klaver
+    - binary_sensor.stue_tryk_off_gangdor_ned
+    - binary_sensor.stue_tryk_off_klaver_ned
+    - binary_sensor.stue_tryk_off_fjern6
+    - binary_sensor.stue_tryk_off_fjern8
+    - binary_sensor.stue_tryk_off_soterr_ned
+    to: 'on'
+    id: sluk
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: taend
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.stue
+        data:
+          transition: 1
+          brightness_pct: '{{ 5 if states(''sensor.stue_scenarie_status'') | trim
+            == ''TV'' else 30 }}'
+    - conditions:
+      - condition: trigger
+        id: sluk
+      sequence:
+      - service: light.turn_off
+        target:
+          entity_id: light.stue
+        data:
+          transition: 1
+- id: hue_ihc_verner_op
+  alias: Store Stue (Verner) - Hue regulering op
+  mode: queued
+  max: 10
+  trigger:
+  - platform: state
+    entity_id: sensor.verner_hue_fadeop
+  condition:
+  - condition: template
+    value_template: '{{ trigger.to_state.state | int(0) > 0 }}'
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.stue
+    data:
+      brightness_step_pct: 16
+      transition: 0.5
+- id: hue_ihc_verner_ned
+  alias: Store Stue (Verner) - Hue regulering ned
+  mode: queued
+  max: 10
+  trigger:
+  - platform: state
+    entity_id: sensor.verner_hue_fadened
+  condition:
+  - condition: template
+    value_template: '{{ trigger.to_state.state | int(0) > 0 }}'
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.stue
+    data:
+      brightness_step_pct: -16
+      transition: 0.5
+- id: hue_ihc_lille_onoff
+  alias: Lillestue - Hue taend/sluk fra IHC-tryk
+  mode: single
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.lille_tryk_on_gang
+    - binary_sensor.lille_tryk_on_yder
+    to: 'on'
+    id: taend
+  - platform: state
+    entity_id:
+    - binary_sensor.lille_tryk_off_gang
+    - binary_sensor.lille_tryk_off_yder
+    to: 'on'
+    id: sluk
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: taend
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.lillestue
+        data:
+          transition: 1
+          brightness_pct: 100
+    - conditions:
+      - condition: trigger
+        id: sluk
+      sequence:
+      - service: light.turn_off
+        target:
+          entity_id: light.lillestue
+        data:
+          transition: 1
+- id: hue_ihc_lille_op
+  alias: Lillestue - Hue regulering op
+  mode: queued
+  max: 10
+  trigger:
+  - platform: state
+    entity_id: sensor.lille_hue_fadeop
+  condition:
+  - condition: template
+    value_template: '{{ trigger.to_state.state | int(0) > 0 }}'
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.lillestue
+    data:
+      brightness_step_pct: 16
+      transition: 0.5
+- id: hue_ihc_lille_ned
+  alias: Lillestue - Hue regulering ned
+  mode: queued
+  max: 10
+  trigger:
+  - platform: state
+    entity_id: sensor.lille_hue_fadened
+  condition:
+  - condition: template
+    value_template: '{{ trigger.to_state.state | int(0) > 0 }}'
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.lillestue
+    data:
+      brightness_step_pct: -16
+      transition: 0.5
+- id: hue_ihc_bjorn_onoff
+  alias: Bjoernevaerelset - Hue taend/sluk fra IHC-tryk
+  mode: single
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.bjorn_tryk_on
+    to: 'on'
+    id: taend
+  - platform: state
+    entity_id:
+    - binary_sensor.bjorn_tryk_off
+    to: 'on'
+    id: sluk
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: taend
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.bjornevaerelse
+        data:
+          transition: 1
+          brightness_pct: 80
+    - conditions:
+      - condition: trigger
+        id: sluk
+      sequence:
+      - service: light.turn_off
+        target:
+          entity_id: light.bjornevaerelse
+        data:
+          transition: 1
+- id: hue_ihc_bjorn_op
+  alias: Bjoernevaerelset - Hue regulering op
+  mode: queued
+  max: 10
+  trigger:
+  - platform: state
+    entity_id: sensor.bjorn_hue_fadeop
+  condition:
+  - condition: template
+    value_template: '{{ trigger.to_state.state | int(0) > 0 }}'
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.bjornevaerelse
+    data:
+      brightness_step_pct: 16
+      transition: 0.5
+- id: hue_ihc_bjorn_ned
+  alias: Bjoernevaerelset - Hue regulering ned
+  triggers:
+  - platform: state
+    entity_id: sensor.bjorn_hue_fadened
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.to_state.state | int(0) > 0 }}'
+  - condition: state
+    entity_id: light.bjornevaerelse
+    state: 'on'
+  actions:
+  - target:
+      entity_id: light.bjornevaerelse
+    data:
+      transition: 0.5
+      brightness_pct: '{{ [ ((state_attr(''light.bjornevaerelse'',''brightness'')
+        | int(0)) / 2.55) | round(0) - 16, 10 ] | max }}'
+    action: light.turn_on
+  mode: queued
+  max: 10
+- id: hue_ihc_sov_alt_op
+  alias: Sovevaerelset - oeverst venstre (alt lys / op)
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.sov_dor_op_v
+    - binary_sensor.sov_miv_op_v
+    - binary_sensor.sov_nalle_op_v
+    to: 'on'
+  action:
+  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+    timeout:
+      seconds: 0.4
+    continue_on_timeout: true
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.sovevaerelse
+        data:
+          transition: 1
+          brightness_pct: 80
+    default:
+    - repeat:
+        while:
+        - condition: template
+          value_template: '{{ is_state(trigger.entity_id, ''on'') }}'
+        - condition: template
+          value_template: '{{ repeat.index <= 40 }}'
+        sequence:
+        - service: light.turn_on
+          target:
+            entity_id: light.sovevaerelse
+          data:
+            brightness_step_pct: 10
+            transition: 0.4
+        - delay:
+            seconds: 0.4
+- id: hue_ihc_sov_alt_ned
+  alias: Sovevaerelset - oeverst hoejre (alt lys / ned)
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.sov_dor_op_h
+    - binary_sensor.sov_miv_op_h
+    - binary_sensor.sov_nalle_op_h
+    to: 'on'
+  action:
+  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+    timeout:
+      seconds: 0.4
+    continue_on_timeout: true
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+      sequence:
+      - service: light.turn_off
+        target:
+          entity_id: light.sovevaerelse
+        data:
+          transition: 1
+    default:
+    - repeat:
+        while:
+        - condition: template
+          value_template: '{{ is_state(trigger.entity_id, ''on'') }}'
+        - condition: template
+          value_template: '{{ repeat.index <= 40 }}'
+        sequence:
+        - service: light.turn_on
+          target:
+            entity_id: light.sovevaerelse
+          data:
+            brightness_step_pct: -10
+            transition: 0.4
+        - delay:
+            seconds: 0.4
+- id: hue_ihc_sov_leklint
+  alias: Sovevaerelset - Le Klint (kip / daemp skiftevis)
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.sov_dor_ned_v
+    - binary_sensor.sov_miv_midt_v
+    - binary_sensor.sov_nalle_midt_v
+    to: 'on'
+  action:
+  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+    timeout:
+      seconds: 0.4
+    continue_on_timeout: true
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+      sequence:
+      - service: light.toggle
+        target:
+          entity_id: &id001
+          - light.le_klint_1
+          - light.le_klint_2
+        data:
+          transition: 1
+          brightness_pct: 80
+    default:
+    - repeat:
+        while:
+        - condition: template
+          value_template: '{{ is_state(trigger.entity_id, ''on'') }}'
+        - condition: template
+          value_template: '{{ repeat.index <= 40 }}'
+        sequence:
+        - service: light.turn_on
+          target:
+            entity_id: *id001
+          data:
+            brightness_step_pct: '{{ 10 if is_state(''input_boolean.sov_leklint_dim_op'',''on'')
+              else -10 }}'
+            transition: 0.4
+        - delay:
+            seconds: 0.4
+  - service: input_boolean.toggle
+    target:
+      entity_id: input_boolean.sov_leklint_dim_op
+- id: hue_ihc_sov_lille
+  alias: Sovevaerelset - Lille lampe (kip / daemp skiftevis)
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.sov_dor_ned_h
+    - binary_sensor.sov_miv_midt_h
+    - binary_sensor.sov_nalle_midt_h
+    to: 'on'
+  action:
+  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+    timeout:
+      seconds: 0.4
+    continue_on_timeout: true
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+      sequence:
+      - service: light.toggle
+        target:
+          entity_id: light.lille_lampe
+        data:
+          transition: 1
+          brightness_pct: 80
+    default:
+    - repeat:
+        while:
+        - condition: template
+          value_template: '{{ is_state(trigger.entity_id, ''on'') }}'
+        - condition: template
+          value_template: '{{ repeat.index <= 40 }}'
+        sequence:
+        - service: light.turn_on
+          target:
+            entity_id: light.lille_lampe
+          data:
+            brightness_step_pct: '{{ 10 if is_state(''input_boolean.sov_lille_dim_op'',''on'')
+              else -10 }}'
+            transition: 0.4
+        - delay:
+            seconds: 0.4
+  - service: input_boolean.toggle
+    target:
+      entity_id: input_boolean.sov_lille_dim_op
+- id: hue_ihc_sluk_alt
+  alias: Sluk Alt slukker alle fire Hue-rum
+  mode: single
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.sluk_alt_puls
+    to: 'on'
+  action:
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.stue
+      - light.lillestue
+      - light.sovevaerelse
+      - light.bjornevaerelse
+    data:
+      transition: 1
+- id: hue_ihc_verner_tv
+  alias: Store Stue - Verner til 5 pct naar TV-scenariet saettes
+  mode: single
+  trigger:
+  - platform: state
+    entity_id: sensor.stue_scenarie_status
+    to: TV
+    id: tv_til
+  - platform: state
+    entity_id: sensor.stue_scenarie_status
+    from: TV
+    id: tv_fra
+  condition:
+  - condition: state
+    entity_id: light.stue
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: tv_til
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.stue
+        data:
+          brightness_pct: 5
+          transition: 2
+    - conditions:
+      - condition: trigger
+        id: tv_fra
+      - condition: template
+        value_template: '{{ trigger.to_state.state not in [''unavailable'',''unknown'']
+          and trigger.to_state.state | trim != ''Fuldt Lys'' }}'
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.stue
+        data:
+          brightness_pct: 30
+          transition: 2
+- id: hue_ihc_verner_fuldt_lys
+  alias: Store Stue (Verner) - 100 pct naar Fuldt lys (rengoering) saettes
+  description: Naar stuens scenarie saettes til Fuldt Lys gaar Verner paa 100 pct,
+    saa han foelger resten af stuen. Forlades scenariet igen, gaar han tilbage til
+    30 pct - undtagen ved skift til TV eller Slukket, som har deres egne automationer.
+  mode: single
+  trigger:
+  - platform: state
+    entity_id: sensor.stue_scenarie_status
+  condition:
+  - condition: template
+    value_template: "{{ trigger.from_state is not none and trigger.to_state is not
+      none\n   and trigger.from_state.state not in ['unavailable','unknown']\n   and
+      trigger.to_state.state not in ['unavailable','unknown']\n   and (trigger.from_state.state
+      | trim) != (trigger.to_state.state | trim) }}"
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.to_state.state | trim == ''Fuldt Lys'' }}'
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.stue
+        data:
+          brightness_pct: 100
+          transition: 2
+    - conditions:
+      - condition: template
+        value_template: "{{ trigger.from_state.state | trim == 'Fuldt Lys'\n   and
+          (trigger.to_state.state | trim) not in ['TV','Slukket'] }}"
+      - condition: state
+        entity_id: light.stue
+        state: 'on'
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.stue
+        data:
+          brightness_pct: 30
+          transition: 2

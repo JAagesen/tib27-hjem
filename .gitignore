@@ -1,0 +1,15 @@
+# Never commit secrets or runtime data from Home Assistant
+secrets.yaml
+ha/config/secrets.yaml
+*.db
+*.db-shm
+*.db-wal
+*.log
+*.log.*
+.storage/
+
+# Python
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.venv/
