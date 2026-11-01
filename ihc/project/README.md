@@ -20,3 +20,4 @@ fx `TIB27_151_spisekarnap_status.vis`.
 | 149 | Billedlys over pigen følger spisekarnappen |
 | 150 | … kun når det er mørkt |
 | 151 | `Status Lys i Spisekarnap` følger lamperne; ikke under Fuldt lys — [docs](../../docs/ihc-billedlys-pige-spisekarnap.md) |
+| 152 | Gangen slukkes straks fra soveværelset og tænder ikke igen af sig selv — [docs](../../docs/ihc-gang-sluk-fra-sovevaerelse.md) |
