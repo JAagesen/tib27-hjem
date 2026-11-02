@@ -55,3 +55,12 @@ niveau, Verner med kontaktens skabelon.
   tryk og pulsvarigheden fra HA ikke er afprøvet. Scriptet
   `all_lights_off` viser mønsteret for Sluk alt: off → 100 ms → on →
   100 ms → off.
+
+## Tænd lys ved skumring når alle er ude — 2-11-2026
+
+Hed før *"Når vi begge kommer hjem og det er mørkt"* (`1770796779242`), men
+den udløses af skumringen, ikke af en hjemkomst: når det bliver mørkt, og
+Jan, Miv og Ella alle er ude. Omdøbt, og Hue-lamperne har fået
+kontakt-niveauerne: Verner 30 % (5 % ved TV), Bjørneværelset 80 %.
+IHC-lamperne tænder stadig på sidste niveau. Sammen med *Home Alone* (Ella
+hjemme) dækker den skumringen, når Jan og Miv begge er ude.

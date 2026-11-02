@@ -76,8 +76,6 @@ se [ha/secrets.yaml.example](ha/secrets.yaml.example).
   klartekst, og en udkommenteret `device_tracker`-blok med routerens
   root-password. Begge bør flyttes til `secrets.yaml` / fjernes, og
   routerens password bør skiftes.
-- *"Når vi begge kommer hjem og det er mørkt"* tænder Verner og
-  Bjørneværelset uden niveau (`check_ha.py` advarer).
 - IHC-binærsensoren `stue_tryk_off_faelles` og lyset `Sluk_Alt_Fælles`
   har samme IHC-id (1439068) i `configuration.yaml`.
 - Le Klint-pærerne i Bjørneværelset hedder stadig

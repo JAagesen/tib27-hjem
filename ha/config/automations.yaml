@@ -475,8 +475,10 @@
         else 30 }}'
   mode: single
 - id: '1770796779242'
-  alias: Når vi begge kommer hjem og det er mørkt.
-  description: Når vi begge kommer hjem og det er mørkt
+  alias: Tænd lys ved skumring når alle er ude
+  description: Når det bliver mørkt, og Jan, Miv og Ella alle har været ude i mindst
+    3 min, tændes lys i stue, køkken, spisekarnap og Bjørneværelset på samme niveau
+    som fra kontakterne.
   triggers:
   - trigger: state
     entity_id:
@@ -511,20 +513,30 @@
       seconds: 0
   actions:
   - action: light.turn_on
-    metadata: {}
-    data: {}
     target:
       entity_id:
       - light.store_stue_1644893
       - light.store_stue_3978077
       - light.spisekarnap_5247581
       - light.store_stue_942429
-      - light.verner_panton
       - light.kokken_3994461
-      - light.bjornevaerelse
       - light.spisekarnap_5257565
       - light.spisekarnap_1237085
       - light.store_stue_1018205
+    data: {}
+  - action: light.turn_on
+    target:
+      entity_id: light.stue
+    data:
+      transition: 1
+      brightness_pct: '{{ 5 if states(''sensor.stue_scenarie_status'') | trim == ''TV''
+        else 30 }}'
+  - action: light.turn_on
+    target:
+      entity_id: light.bjornevaerelse
+    data:
+      transition: 1
+      brightness_pct: 80
   mode: single
 - id: '17895564828070'
   alias: Markise – tryk UD (helt ud / stop)
