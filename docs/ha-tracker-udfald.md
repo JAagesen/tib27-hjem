@@ -38,7 +38,7 @@ Det er erstattet af fraværskravet ovenfor.
 | Home Alone | 3 min på betingelserne, + GPS |
 | Når vi begge kommer hjem og det er mørkt | 3 min på betingelserne, + wifi |
 | When I come home turn on light in Bjørneværelse | fraværskrav i stedet for 2 min hold |
-| Når vi kommer hjem og Ella ikke er hjemme | fraværskrav |
+| Når vi kommer hjem og det er mørkt (før: "… og Ella ikke er hjemme") | fraværskrav; Ella-betingelsen fjernet, så lyset også tænder når Ella er med |
 
 Ikke rørt: *Ella Away*, *Ella coming home*, *Når Miv kommer hjem* og *When Nalle
 gets home* — de har ingen handlinger.

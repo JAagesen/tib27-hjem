@@ -429,8 +429,9 @@
   actions: []
   mode: single
 - id: '1762441290061'
-  alias: Når vi kommer hjem og Ella ikke er hjemme
-  description: ''
+  alias: Når vi kommer hjem og det er mørkt
+  description: Tænder stue, køkken og spisekarnap når Jan eller Miv kommer hjem i
+    mørke efter mindst 3 min fravær — også når Ella er med.
   triggers:
   - trigger: state
     entity_id:
@@ -443,10 +444,6 @@
     from: not_home
     to: home
   conditions:
-  - condition: state
-    entity_id: device_tracker.ella_tracker
-    state:
-    - not_home
   - condition: state
     entity_id: binary_sensor.faelles_3963482
     state: 'on'
