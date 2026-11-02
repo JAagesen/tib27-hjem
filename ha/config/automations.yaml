@@ -118,10 +118,24 @@
   - condition: state
     entity_id: device_tracker.mivs_s22
     state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
   - condition: state
     entity_id: device_tracker.jan_s_s22
-    state:
-    - not_home
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: state
+    entity_id: device_tracker.jan_s_cell_phone
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
   actions:
   - action: script.all_lights_off
     metadata: {}
@@ -142,16 +156,38 @@
   - trigger: state
     entity_id:
     - device_tracker.jan_s_s22
-    from:
-    - home
-    - Home
-    to:
-    - not_home
+    to: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - trigger: state
+    entity_id:
+    - device_tracker.jan_s_cell_phone
+    to: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
   conditions:
   - condition: state
     entity_id: binary_sensor.faelles_3963482
     state:
     - 'off'
+  - condition: state
+    entity_id: device_tracker.jan_s_s22
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: state
+    entity_id: device_tracker.jan_s_cell_phone
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
   actions:
   - action: light.turn_off
     metadata: {}
@@ -172,16 +208,30 @@
     to: 'on'
   conditions:
   - condition: state
-    entity_id: device_tracker.mivs_s22
-    state: not_home
-  - condition: state
     entity_id: device_tracker.ella_tracker
     state:
     - home
   - condition: state
+    entity_id: device_tracker.mivs_s22
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: state
     entity_id: device_tracker.jan_s_s22
-    state:
-    - not_home
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: state
+    entity_id: device_tracker.jan_s_cell_phone
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
   actions:
   - action: light.turn_on
     target:
@@ -212,14 +262,13 @@
     - not_home
     to:
     - home
-    for:
-      hours: 0
-      minutes: 2
-      seconds: 0
   conditions:
   - condition: state
     entity_id: binary_sensor.faelles_3963482
     state: 'on'
+  - condition: template
+    value_template: '{{ trigger.from_state is not none and (trigger.to_state.last_changed
+      - trigger.from_state.last_changed).total_seconds() >= 180 }}'
   actions:
   - action: light.turn_on
     metadata: {}
@@ -250,30 +299,52 @@
   - trigger: state
     entity_id:
     - device_tracker.mivs_s22
-    from: home
     to: not_home
     for:
       hours: 0
-      minutes: 0
+      minutes: 3
       seconds: 0
   - trigger: state
     entity_id:
     - device_tracker.jan_s_s22
-    from:
-    - home
-    to:
-    - not_home
+    to: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - trigger: state
+    entity_id:
+    - device_tracker.jan_s_cell_phone
+    to: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
   conditions:
-  - condition: state
-    entity_id: device_tracker.mivs_s22
-    state: not_home
   - condition: state
     entity_id: binary_sensor.faelles_3963482
     state: 'off'
   - condition: state
+    entity_id: device_tracker.mivs_s22
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: state
     entity_id: device_tracker.jan_s_s22
-    state:
-    - not_home
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: state
+    entity_id: device_tracker.jan_s_cell_phone
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
   actions:
   - action: script.all_lights_off
     metadata: {}
@@ -379,6 +450,9 @@
   - condition: state
     entity_id: binary_sensor.faelles_3963482
     state: 'on'
+  - condition: template
+    value_template: '{{ trigger.from_state is not none and (trigger.to_state.last_changed
+      - trigger.from_state.last_changed).total_seconds() >= 180 }}'
   actions:
   - action: light.turn_on
     target:
@@ -414,16 +488,30 @@
     to: 'on'
   conditions:
   - condition: state
-    entity_id: device_tracker.mivs_s22
-    state: not_home
-  - condition: state
     entity_id: device_tracker.ella_tracker
     state:
     - not_home
   - condition: state
+    entity_id: device_tracker.mivs_s22
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: state
+    entity_id: device_tracker.jan_s_s22
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: state
     entity_id: device_tracker.jan_s_cell_phone
-    state:
-    - not_home
+    state: not_home
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
   actions:
   - action: light.turn_on
     metadata: {}

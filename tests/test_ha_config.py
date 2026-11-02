@@ -86,3 +86,46 @@ def test_deleted_zone_name_warns(cfg):
     to: 'Home '
 """)
     assert any("'Home '" in m for m in _msgs("WARN"))
+
+
+def test_tracker_blip_rules(cfg):
+    cfg("""
+- id: '1'
+  alias: forlader uden ventetid
+  actions: [{action: light.turn_off}]
+  triggers:
+  - {trigger: state, entity_id: device_tracker.jan_s_s22, to: not_home}
+- id: '2'
+  alias: forlader med 3 min
+  actions: [{action: light.turn_off}]
+  triggers:
+  - {trigger: state, entity_id: device_tracker.jan_s_s22, to: not_home, for: '00:03:00'}
+- id: '3'
+  alias: kommer hjem uden fravaerskrav
+  actions: [{action: light.turn_on}]
+  triggers:
+  - {trigger: state, entity_id: person.miv, from: not_home, to: home}
+- id: '4'
+  alias: kommer hjem med fravaerskrav
+  actions: [{action: light.turn_on}]
+  triggers:
+  - {trigger: state, entity_id: person.miv, from: not_home, to: home}
+  conditions:
+  - condition: template
+    value_template: "{{ (trigger.to_state.last_changed - trigger.from_state.last_changed).total_seconds() >= 180 }}"
+""")
+    warns = [f.where for f in check_ha.run() if f.level == "WARN"]
+    assert any("«forlader uden ventetid»" in w for w in warns)
+    assert any("«kommer hjem uden fravaerskrav»" in w for w in warns)
+    assert not any("«forlader med 3 min»" in w or "«kommer hjem med fravaerskrav»" in w for w in warns)
+
+
+def test_automation_without_actions_is_ignored(cfg):
+    cfg("""
+- id: '1'
+  alias: tom
+  triggers:
+  - {trigger: state, entity_id: device_tracker.x, to: not_home}
+  actions: []
+""")
+    assert _msgs("WARN") == []

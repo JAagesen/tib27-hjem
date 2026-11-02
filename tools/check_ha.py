@@ -7,6 +7,7 @@ WARN  = works, but is a known trap.
 """
 from __future__ import annotations
 
+import json
 import re
 import sys
 from dataclasses import dataclass
@@ -101,6 +102,15 @@ def _targets(call: dict) -> set[str]:
     return ents
 
 
+def _minutes(v) -> float:
+    if not v:
+        return 0
+    if isinstance(v, dict):
+        return v.get("hours", 0) * 60 + v.get("minutes", 0) + v.get("seconds", 0) / 60
+    h, m, sec = (str(v).split(":") + ["0", "0"])[:3]
+    return int(h) * 60 + int(m) + float(sec) / 60
+
+
 def check_secrets() -> list[Finding]:
     out = []
     for f in sorted(CONFIG.glob("*.yaml")):
@@ -139,6 +149,21 @@ def check_automations() -> list[Finding]:
                     out.append(Finding("WARN", where,
                                        f"tænder {', '.join(sorted(ents & HUE_LIGHTS))} uden niveau — "
                                        "Hue-pæren arver sidste niveau, som kan være 0 %"))
+        # Rule: a tracker blip (gone and back within seconds) must never count as
+        # leaving or arriving. Leaving needs `for` >= 3 min; arriving needs the
+        # "away for >= 3 min" template condition.
+        has_actions = bool(a.get("actions") or a.get("action"))
+        trig = (a.get("triggers") or a.get("trigger") or []) if has_actions else []
+        conds = json.dumps(a.get("conditions") or a.get("condition") or [])
+        for t in trig if isinstance(trig, list) else [trig]:
+            ents = [e for e in _as_list(t.get("entity_id")) if isinstance(e, str)]
+            if not any(e.startswith(("device_tracker.", "person.")) for e in ents) or t.get("enabled") is False:
+                continue
+            to, frm = _as_list(t.get("to")), _as_list(t.get("from"))
+            if "not_home" in to and _minutes(t.get("for")) < 3:
+                out.append(Finding("WARN", where, f"reagerer på at {', '.join(ents)} går til not_home uden 3 min ventetid"))
+            if "not_home" in frm and "home" in to and "total_seconds()" not in conds:
+                out.append(Finding("WARN", where, f"reagerer på at {', '.join(ents)} kommer hjem uden krav om 3 min fravær"))
         # Regression guard: the duplicate zone 'Home ' was deleted 29-10-2026.
         for p, v in _walk(a):
             if not (isinstance(v, str) and v in ("Home ", "Home") and p):

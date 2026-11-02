@@ -24,13 +24,14 @@ Disse er skrevet ind i tjekkene, så de ikke kan glide i stilhed.
 | De fire **markise**-flag (`_0x80c90a`, `_0x80ca0a`, `_0x80cb0a`, `_0x80cc0a`) må ikke ændres | manuelt — IHC-siden |
 | **Hue-lamper** tændes altid med et niveau (ellers kan de arve 0 %) | `check_ha.py` — advarsel |
 | **Ingen hemmeligheder i repoet** — heller ikke i udkommenterede linjer | `check_ha.py` — fejl |
+| Et **tracker-udfald** må ikke tælle som gået eller kommet hjem (3 min) | `check_ha.py` — advarsel |
 | Før upload til controlleren: **backup**, `verify`, og åbn filen i IHC Visual | arbejdsgang nedenfor |
 
 ## Kom i gang
 
 ```bash
 pip install -e '.[dev]'
-pytest                       # 24 tests: IHC-værktøjer og HA-regler
+pytest                       # 26 tests: IHC-værktøjer og HA-regler
 python tools/check_ha.py     # tjek HA-konfigurationen
 ```
 
@@ -77,11 +78,8 @@ se [ha/secrets.yaml.example](ha/secrets.yaml.example).
   routerens password bør skiftes.
 - *"Når vi begge kommer hjem og det er mørkt"* tænder Verner og
   Bjørneværelset uden niveau (`check_ha.py` advarer).
-- *"Sluk lys i Bjørneværelset, når jeg forlader hjemmet"* lytter stadig
-  efter tilstanden `Home`, som ikke findes (`check_ha.py` advarer).
 - IHC-binærsensoren `stue_tryk_off_faelles` og lyset `Sluk_Alt_Fælles`
   har samme IHC-id (1439068) i `configuration.yaml`.
 - Le Klint-pærerne i Bjørneværelset hedder stadig
   `light.extended_color_light_1` / `_1_2` — bør omdøbes.
-- Den nyeste projektfil (`TIB27_151_spisekarnap_status.vis`) skal lægges
-  i `ihc/project/`.
+- v151 er ikke uploadet til controlleren. v152 indeholder derfor også v148–151.
