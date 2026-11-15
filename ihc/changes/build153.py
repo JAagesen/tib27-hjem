@@ -21,8 +21,8 @@ Overført til kanal 1 på den nye dimmer:
   * Lys niveau  -> "Styring af PIR i gang …" / Input / Lys niveau
   * Lys indikering -> "Kombidimmer (dag&Nat)" / Input / Lys indikering
 
-IKKE overført (findes ikke på en LED-dimmer): kombidimmerens fire tryk.
-De forsvinder, når den gamle slettes.
+IKKE overført: kombidimmerens fire tryk. Bevidst — gangen har rigeligt med
+andre tryk (Jan, 15-11-2026). De forsvinder, når den gamle slettes.
 
 Kanal 2 oprettes ledig med skabelonens standardindstillinger.
 Serienummer er tomt — udfyldes i IHC Visual, når enheden tilsluttes.

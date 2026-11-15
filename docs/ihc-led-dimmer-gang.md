@@ -28,6 +28,6 @@ Den gamle kombidimmer er urørt. Indtil den slettes, styres begge parallelt.
 1. Indtast serienummeret i IHC Visual (det står på enheden, "PL…").
 2. Slet kombidimmeren. Dens scenarie-links og links forsvinder med den;
    den nye dimmers links bliver.
-3. **Kombidimmerens fire tryk forsvinder også.** De sender i dag til
-   Kombidimmer-blokken (op/ned) og PIR-styringen (Tryk DAG / Tryk NAT).
-   Skal de bevares, kræver det et nyt tryk, som kobles til de samme input.
+3. Kombidimmerens fire tryk forsvinder med den. Det er bevidst: de skal
+   ikke erstattes, for gangen styres allerede fra rigeligt med andre tryk
+   (Jan, 15-11-2026).
