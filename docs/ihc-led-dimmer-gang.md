@@ -63,3 +63,11 @@ Slettes kombidimmeren senere i IHC Visual, ændrer det intet funktionelt.
 - PIR i natdrift satte 1 %, men LED'erne lyste ikke ved minimum 5 %.
   Ved 10 % lyser de. v156 sætter minimum til 10 % på kanal 1
   (`ihc/changes/build156.py`).
+- v156 hjalp ikke: LED-dimmeren bruger ikke minimum som gulv for scenerne;
+  1 % forbliver 1 % og lyser ikke.
+- v157: scenerne på kanal 1 hævet — Nat, Sluk Alt, Lavt niveau, Nat nedtoning
+  1 % → 10 %, Mellem 10 % → 20 %. PIR-blokkens statustærskler for "natlys =
+  slukket" flyttet fra <5/>4 til <11/>10 (`ihc/changes/build157.py`).
+- NB: NAT-tasterne i soveværelset sætter også nat-uret (blok "Styring af
+  Natfunktion på PIR") til nat frem til 07:45. Kun DAG i soveværelset
+  nulstiller det. Det fik gangen til at blive i natdrift under test kl. 18:30.
