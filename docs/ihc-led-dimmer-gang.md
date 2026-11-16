@@ -25,7 +25,10 @@ Den gamle kombidimmer er urørt. Indtil den slettes, styres begge parallelt.
 `ihc/changes/build153.py` genskaber filen fra v152.
 
 ## Fase 2 — når den nye er tilsluttet
-1. Indtast serienummeret i IHC Visual (det står på enheden, "PL…").
+1. Link dimmeren i IHC Visual: Controller → Link/test LK IHC Wireless
+   produkter & Bus produkter → Link. Hold begge knapper på dimmeren inde, til
+   de blinker (ca. 3 s), og tryk så på én af dem inden for 30 s. Linkningen
+   udfylder serienummer og adresse; de skal ikke tastes.
 2. Slet kombidimmeren. Dens scenarie-links og links forsvinder med den;
    den nye dimmers links bliver.
 3. Kombidimmerens fire tryk forsvinder med den. Det er bevidst: de skal
@@ -41,3 +44,15 @@ kun fra kombidimmeren. De andre input har stadig deres øvrige tryk.
 
 `verify`: KLAR. `ihc/changes/build154.py` genskaber filen fra v153.
 Slettes kombidimmeren senere i IHC Visual, ændrer det intet funktionelt.
+
+## Fra LK's vejledning (820B1250), 16-11-2026
+- Kræver controller-firmware 03.03.xx+ og IHC Visual 03.04.xx+ (som frostfri-dimmeren).
+- 24 V og RS485 (+/−) i bunden, 230 V i toppen; 230 V-terminalen skal vende op.
+- RS485-bussen skal termineres i enden: SMS-modem sidst, ellers ca. 120 Ω.
+  Bliver den nye dimmer sidst på bussen, skal termineringen flyttes hertil.
+  Skærm til 0 V ved kabel over 10 m.
+- Fabriksindstilling for minimum er 22 %; v153 bruger 5 % som kombidimmeren.
+  Natscenerne beder om 1 %. Test at LED'erne lyser stabilt på laveste niveau.
+- Belastningskarakteristik: Auto / RC / RL LED. v153 står på standard (auto);
+  kombidimmeren stod på RC.
+- Knap 1 og 2 på fronten kan tænde, slukke og dæmpe hver kanal lokalt.
