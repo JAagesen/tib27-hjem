@@ -56,3 +56,10 @@ Slettes kombidimmeren senere i IHC Visual, ændrer det intet funktionelt.
 - Belastningskarakteristik: Auto / RC / RL LED. v153 står på standard (auto);
   kombidimmeren stod på RC.
 - Knap 1 og 2 på fronten kan tænde, slukke og dæmpe hver kanal lokalt.
+
+## Linket og i drift — v155/v156, 16-11-2026
+- v155: dimmeren linket (serienummer PL1927000343), gemt af IHC Visual.
+  Tasterne virkede først, da v155 var uploadet.
+- PIR i natdrift satte 1 %, men LED'erne lyste ikke ved minimum 5 %.
+  Ved 10 % lyser de. v156 sætter minimum til 10 % på kanal 1
+  (`ihc/changes/build156.py`).
