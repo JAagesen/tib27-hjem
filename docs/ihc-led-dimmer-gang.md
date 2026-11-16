@@ -31,3 +31,13 @@ Den gamle kombidimmer er urørt. Indtil den slettes, styres begge parallelt.
 3. Kombidimmerens fire tryk forsvinder med den. Det er bevidst: de skal
    ikke erstattes, for gangen styres allerede fra rigeligt med andre tryk
    (Jan, 15-11-2026).
+
+## Kombidimmeren ude af drift — v154, 16-11-2026
+Kombidimmeren er ikke slettet, men alle dens forbindelser er fjernet: 14
+scenarie-par, Lys niveau, Lys indikering og de fire tryk. Noten siger
+"UDE AF DRIFT". Den nye LED-dimmer har stadig alle 14 scenarier og begge links.
+Kombidimmer-blokkens input "Reguler scenarie op" har nu intet tryk. Det kom
+kun fra kombidimmeren. De andre input har stadig deres øvrige tryk.
+
+`verify`: KLAR. `ihc/changes/build154.py` genskaber filen fra v153.
+Slettes kombidimmeren senere i IHC Visual, ændrer det intet funktionelt.
