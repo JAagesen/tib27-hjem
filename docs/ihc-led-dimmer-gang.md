@@ -71,3 +71,9 @@ Slettes kombidimmeren senere i IHC Visual, ændrer det intet funktionelt.
 - NB: NAT-tasterne i soveværelset sætter også nat-uret (blok "Styring af
   Natfunktion på PIR") til nat frem til 07:45. Kun DAG i soveværelset
   nulstiller det. Det fik gangen til at blive i natdrift under test kl. 18:30.
+
+## I drift — v162, 19-11-2026
+Controlleren kører `TIB27_162_hoej_55.vis` (gemt af Jan i IHC Visual).
+Gangen: Høj/Dag/Regulering 55 %, Mellem 10 %, Lav/Nat/Nat-nedtoning 5 %
+(Lav rampe 0 ms), Sluk Alt 1 %, minimum 5 %, soft tænd 200 ms.
+Efter hver upload til controlleren skal Home Assistant genstartes.
