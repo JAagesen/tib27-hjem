@@ -1237,3 +1237,66 @@
         data:
           brightness_pct: 30
           transition: 2
+- id: daikin_stue_blaes_varme_24
+  alias: 'Daikin Stue: kun blæs over 24 °C, varme under 24 °C'
+  description: 'Over 24 °C i 5 min: varme -> kun blæs. Under 24 °C i 5 min: kun blæs
+    -> varme. Tjekker også ved HA-start, når Daikin kommer online, og hvert 15. min.
+    Rører ikke køl/sluk. Erstatter "Daiken Fan Only above 25" og "Set Heat on when
+    below 24" (20-11-2026).'
+  mode: single
+  triggers:
+  - trigger: numeric_state
+    entity_id: climate.daikin_stue
+    attribute: current_temperature
+    above: 24
+    for:
+      minutes: 5
+    id: over
+  - trigger: numeric_state
+    entity_id: climate.daikin_stue
+    attribute: current_temperature
+    below: 24
+    for:
+      minutes: 5
+    id: under
+  - trigger: homeassistant
+    event: start
+    id: tjek
+  - trigger: state
+    entity_id: climate.daikin_stue
+    from: unavailable
+    for:
+      minutes: 1
+    id: tjek
+  - trigger: time_pattern
+    minutes: /15
+    id: tjek
+  conditions:
+  - condition: state
+    entity_id: switch.daikin_stue_none
+    state: 'on'
+  - condition: template
+    value_template: '{{ state_attr(''climate.daikin_stue'',''current_temperature'')
+      is number }}'
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ state_attr(''climate.daikin_stue'',''current_temperature'')
+          > 24 and is_state(''climate.daikin_stue'',''heat'') }}'
+      sequence:
+      - action: climate.set_hvac_mode
+        target:
+          entity_id: climate.daikin_stue
+        data:
+          hvac_mode: fan_only
+    - conditions:
+      - condition: template
+        value_template: '{{ state_attr(''climate.daikin_stue'',''current_temperature'')
+          < 24 and is_state(''climate.daikin_stue'',''fan_only'') }}'
+      sequence:
+      - action: climate.set_hvac_mode
+        target:
+          entity_id: climate.daikin_stue
+        data:
+          hvac_mode: heat
